@@ -32,8 +32,6 @@
             text-align: center;
             max-width: 600px;
             width: 100%;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
         }
         h1 {
             color: #0056b3;
@@ -53,7 +51,6 @@
             font-weight: 700;
             font-size: 1.1em;
         }
-        /* Modern styling for select and input */
         select, input[type="text"], input[type="tel"] {
             width: 100%;
             padding: 14px 45px 14px 20px;
@@ -62,9 +59,7 @@
             box-sizing: border-box;
             font-size: 16px;
             font-family: 'Tajawal', sans-serif;
-            transition: border-color 0.3s, box-shadow 0.3s;
             background-color: #f8f9fa;
-            /* For modern dropdown arrow */
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -74,17 +69,12 @@
             background-size: 1em;
         }
         input[type="text"], input[type="tel"] {
-             padding: 14px 20px; /* Reset padding for inputs */
+            padding: 14px 20px;
         }
         select:focus, input:focus {
             outline: none;
             border-color: #80bdff;
             box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        #patient-details {
-            margin-top: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 25px;
         }
         button[type="submit"] {
             background: linear-gradient(90deg, #28a745, #218838);
@@ -95,7 +85,6 @@
             cursor: pointer;
             font-size: 18px;
             font-weight: 700;
-            font-family: 'Tajawal', sans-serif;
             width: 100%;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
@@ -104,11 +93,9 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
         }
-        .error-message {
-            color: #dc3545;
-            font-weight: 500;
-            display: none;
-            margin-top: 15px;
+        button[type="submit"]:disabled {
+            background: #aaa;
+            cursor: not-allowed;
         }
         .clinic-info {
             margin-top: 35px;
@@ -125,7 +112,22 @@
         .clinic-info .info-item i {
             color: #dc3545;
             font-size: 1.2em;
-            margin-left: 10px; 
+            margin-left: 10px;
+        }
+        .message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -134,119 +136,128 @@
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>حجز موعد عند عيادة الدكتور عبد القادر رحيم</h1>
         
-        <form id="booking-form" action="https://formspree.io/f/YOUR_UNIQUE_CODE" method="POST">
-            
+        <form id="booking-form">
             <div class="form-group">
                 <label for="doctor-select">الخطوة 1: اختر الطبيب</label>
-                <select id="doctor-select" name="الطبيب المختار">
+                <select id="doctor-select" name="doctor">
                     <option value="" disabled selected>-- يرجى اختيار الطبيب --</option>
-                    <option value="dr-abdulqader">الدكتور عبدالقادر رحيم كريم</option>
-                    <option value="dr-sura">الدكتورة سرى سعدون خزعل</option>
+                    <option value="الدكتور عبدالقادر رحيم كريم">الدكتور عبدالقادر رحيم كريم</option>
+                    <option value="الدكتورة سرى سعدون خزعل">الدكتورة سرى سعدون خزعل</option>
                 </select>
             </div>
 
             <div class="form-group" id="appointment-group" style="display: none;">
                 <label for="appointment-select">الخطوة 2: اختر اليوم والموعد</label>
-                <select id="appointment-select" name="الموعد المختار">
-                    <!-- Options will be populated by JavaScript -->
+                <select id="appointment-select" name="appointment">
+                    <!-- Options populated by JS -->
                 </select>
             </div>
 
-            <!-- Patient Details - initially hidden -->
             <div id="patient-details" style="display: none;">
                 <label>الخطوة 3: أدخل معلوماتك</label>
                 <div class="form-group">
-                    <input type="text" id="name" name="اسم المريض" placeholder="الاسم الثلاثي" required>
+                    <input type="text" id="name" name="name" placeholder="الاسم الثلاثي" required>
                 </div>
                 <div class="form-group">
-                    <input type="tel" id="phone" name="رقم الهاتف" placeholder="رقم الهاتف" required>
+                    <input type="tel" id="phone" name="phone" placeholder="رقم الهاتف" required>
                 </div>
-                <button type="submit">تأكيد الحجز</button>
+                <button type="submit" id="submit-button">تأكيد الحجز</button>
             </div>
-            
         </form>
+
+        <div id="form-message" class="message"></div>
 
         <div class="clinic-info">
              <div class="info-item">
                 <i class="fa-solid fa-location-dot"></i>
-                <span>بعقوبة - شارع الاطباء - مقابل صيدلية الوطن</span>
+                <span>بعقوبة - شارع الاطباء - مقابل صيدلية الرافدين</span>
             </div>
         </div>
     </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('booking-form');
         const doctorSelect = document.getElementById('doctor-select');
         const appointmentGroup = document.getElementById('appointment-group');
         const appointmentSelect = document.getElementById('appointment-select');
         const patientDetails = document.getElementById('patient-details');
-        const form = document.getElementById('booking-form');
+        const submitButton = document.getElementById('submit-button');
+        const formMessage = document.getElementById('form-message');
 
         const appointments = {
-            'dr-abdulqader': [
-                'السبت - 3:00 مساءً',
-                'الأحد - 3:00 مساءً',
-                'الاثنين - 3:00 مساءً',
-                'الأربعاء - 3:00 مساءً',
-                'الخميس - 3:00 مساءً',
-                'الجمعة - 3:00 مساءً'
-            ],
-            'dr-sura': [
-                'السبت - 9:00 صباحاً',
-                'الأحد - 9:00 صباحاً',
-                'الاثنين - 9:00 صباحاً',
-                'الأربعاء - 9:00 صباحاً',
-                'الخميس - 9:00 صباحاً'
-            ]
+            'الدكتور عبدالقادر رحيم كريم': ['السبت - 3:00 مساءً', 'الأحد - 3:00 مساءً', 'الاثنين - 3:00 مساءً', 'الأربعاء - 3:00 مساءً', 'الخميس - 3:00 مساءً', 'الجمعة - 3:00 مساءً'],
+            'الدكتورة سرى سعدون خزعل': ['السبت - 9:00 صباحاً', 'الأحد - 9:00 صباحاً', 'الاثنين - 9:00 صباحاً', 'الأربعاء - 9:00 صباحاً', 'الخميس - 9:00 صباحاً']
         };
 
         doctorSelect.addEventListener('change', function() {
-            // Clear previous options and hide subsequent steps
             appointmentSelect.innerHTML = '';
             appointmentGroup.style.display = 'none';
             patientDetails.style.display = 'none';
-            
             const selectedDoctor = this.value;
 
             if (selectedDoctor) {
-                // Add a default, disabled option
                 const defaultOption = document.createElement('option');
                 defaultOption.textContent = '-- اختر اليوم والموعد --';
                 defaultOption.value = '';
                 defaultOption.disabled = true;
                 defaultOption.selected = true;
                 appointmentSelect.appendChild(defaultOption);
-
-                // Populate with new appointments
-                const availableSlots = appointments[selectedDoctor];
-                availableSlots.forEach(slotText => {
+                appointments[selectedDoctor].forEach(slotText => {
                     const option = document.createElement('option');
-                    option.textContent = slotText;
+                    option.textContent = slotText; 
                     option.value = slotText;
                     appointmentSelect.appendChild(option);
                 });
-
-                // Show the appointment dropdown
                 appointmentGroup.style.display = 'block';
             }
         });
 
         appointmentSelect.addEventListener('change', function() {
-            if (this.value) {
-                // If a valid appointment is selected, show patient details
-                patientDetails.style.display = 'block';
-            } else {
-                patientDetails.style.display = 'none';
-            }
+            patientDetails.style.display = this.value ? 'block' : 'none';
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitButton.disabled = true;
+            submitButton.textContent = 'جاري الإرسال...';
+            formMessage.style.display = 'none';
+
+            // The URL for our Cloudflare Function is simply '/submit'
+            fetch('/submit', { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`خطأ من الخادم: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === 'success') {
+                        formMessage.textContent = 'شكراً لك! تم إرسال طلب الحجز بنجاح.';
+                        formMessage.className = 'message success';
+                        form.reset();
+                        appointmentGroup.style.display = 'none';
+                        patientDetails.style.display = 'none';
+                    } else {
+                        throw new Error(data.details || 'حدث خطأ غير معروف');
+                    }
+                })
+                .catch(error => {
+                    formMessage.textContent = 'عذراً، حدث خطأ أثناء إرسال الحجز. يرجى المحاولة مرة أخرى.';
+                    formMessage.className = 'message error';
+                    console.error('Error!', error.message);
+                })
+                .finally(() => {
+                    formMessage.style.display = 'block';
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'تأكيد الحجز';
+                });
         });
     });
 </script>
-
 </body>
 </html>
-
 
