@@ -44,6 +44,7 @@
         .form-group {
             margin-bottom: 25px;
             text-align: right;
+            animation: fadeIn 0.5s;
         }
         label {
             display: block;
@@ -52,9 +53,10 @@
             font-weight: 700;
             font-size: 1.1em;
         }
+        /* Modern styling for select and input */
         select, input[type="text"], input[type="tel"] {
             width: 100%;
-            padding: 14px;
+            padding: 14px 45px 14px 20px;
             border: 1px solid #ced4da;
             border-radius: 8px;
             box-sizing: border-box;
@@ -62,59 +64,25 @@
             font-family: 'Tajawal', sans-serif;
             transition: border-color 0.3s, box-shadow 0.3s;
             background-color: #f8f9fa;
+            /* For modern dropdown arrow */
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 1rem center;
+            background-size: 1em;
+        }
+        input[type="text"], input[type="tel"] {
+             padding: 14px 20px; /* Reset padding for inputs */
         }
         select:focus, input:focus {
             outline: none;
             border-color: #80bdff;
             box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
         }
-        .appointment-schedule {
-            display: none;
-            margin-top: 20px;
-            animation: fadeIn 0.5s;
-        }
-        .day-schedule {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: right;
-        }
-        .day-schedule h4 {
-            margin: 0 0 10px 0;
-            color: #0056b3;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 10px;
-        }
-        .time-slots {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: flex-start;
-        }
-        .time-slot {
-            background-color: #fff;
-            border: 1px solid #007bff;
-            color: #007bff;
-            padding: 10px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        .time-slot:hover {
-            background-color: #e9f3ff;
-        }
-        .time-slot.selected {
-            background-color: #007bff;
-            color: white;
-            font-weight: 700;
-            transform: scale(1.05);
-        }
         #patient-details {
-            display: none;
             margin-top: 20px;
-            animation: fadeIn 0.5s;
             border-top: 1px solid #eee;
             padding-top: 25px;
         }
@@ -181,86 +149,15 @@
                 </select>
             </div>
 
-            <!-- Appointment Slots for Dr. Abdulqader -->
-            <div id="dr-abdulqader-slots" class="appointment-schedule">
-                <label>الخطوة 2: اختر اليوم المتاح (الموعد ثابت: 3:00 مساءً)</label>
-                <div class="day-schedule">
-                    <h4>السبت</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="السبت - 3:00 مساءً">3:00 مساءً</div>
-                    </div>
-                </div>
-                <div class="day-schedule">
-                    <h4>الأحد</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="الأحد - 3:00 مساءً">3:00 مساءً</div>
-                    </div>
-                </div>
-                <div class="day-schedule">
-                    <h4>الاثنين</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="الاثنين - 3:00 مساءً">3:00 مساءً</div>
-                    </div>
-                </div>
-                <div class="day-schedule">
-                    <h4>الأربعاء</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="الأربعاء - 3:00 مساءً">3:00 مساءً</div>
-                    </div>
-                </div>
-                <div class="day-schedule">
-                    <h4>الخميس</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="الخميس - 3:00 مساءً">3:00 مساءً</div>
-                    </div>
-                </div>
-                 <div class="day-schedule">
-                    <h4>الجمعة</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="الجمعة - 3:00 مساءً">3:00 مساءً</div>
-                    </div>
-                </div>
+            <div class="form-group" id="appointment-group" style="display: none;">
+                <label for="appointment-select">الخطوة 2: اختر اليوم والموعد</label>
+                <select id="appointment-select" name="الموعد المختار">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
             </div>
 
-            <!-- Appointment Slots for Dr. Sura -->
-            <div id="dr-sura-slots" class="appointment-schedule">
-                <label>الخطوة 2: اختر اليوم المتاح (الموعد ثابت: 9:00 صباحاً)</label>
-                 <div class="day-schedule">
-                    <h4>السبت</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="السبت - 9:00 صباحاً">9:00 صباحاً</div>
-                    </div>
-                </div>
-                 <div class="day-schedule">
-                    <h4>الأحد</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="الأحد - 9:00 صباحاً">9:00 صباحاً</div>
-                    </div>
-                </div>
-                <div class="day-schedule">
-                    <h4>الاثنين</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="الاثنين - 9:00 صباحاً">9:00 صباحاً</div>
-                    </div>
-                </div>
-                 <div class="day-schedule">
-                    <h4>الأربعاء</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="الأربعاء - 9:00 صباحاً">9:00 صباحاً</div>
-                    </div>
-                </div>
-                <div class="day-schedule">
-                    <h4>الخميس</h4>
-                    <div class="time-slots">
-                        <div class="time-slot" data-value="الخميس - 9:00 صباحاً">9:00 صباحاً</div>
-                    </div>
-                </div>
-            </div>
-
-            <input type="hidden" id="selected-appointment" name="الموعد المختار">
-
-            <!-- Patient Details -->
-            <div id="patient-details">
+            <!-- Patient Details - initially hidden -->
+            <div id="patient-details" style="display: none;">
                 <label>الخطوة 3: أدخل معلوماتك</label>
                 <div class="form-group">
                     <input type="text" id="name" name="اسم المريض" placeholder="الاسم الثلاثي" required>
@@ -269,7 +166,6 @@
                     <input type="tel" id="phone" name="رقم الهاتف" placeholder="رقم الهاتف" required>
                 </div>
                 <button type="submit">تأكيد الحجز</button>
-                <p id="error-message" class="error-message">يرجى اختيار موعد أولاً.</p>
             </div>
             
         </form>
@@ -283,47 +179,70 @@
     </div>
 
 <script>
-    const doctorSelect = document.getElementById('doctor-select');
-    const abdulqaderSlots = document.getElementById('dr-abdulqader-slots');
-    const suraSlots = document.getElementById('dr-sura-slots');
-    const patientDetails = document.getElementById('patient-details');
-    const hiddenAppointmentInput = document.getElementById('selected-appointment');
-    const allTimeSlots = document.querySelectorAll('.time-slot');
-    const form = document.getElementById('booking-form');
-    const errorMessage = document.getElementById('error-message');
+    document.addEventListener('DOMContentLoaded', function() {
+        const doctorSelect = document.getElementById('doctor-select');
+        const appointmentGroup = document.getElementById('appointment-group');
+        const appointmentSelect = document.getElementById('appointment-select');
+        const patientDetails = document.getElementById('patient-details');
+        const form = document.getElementById('booking-form');
 
-    doctorSelect.addEventListener('change', function() {
-        abdulqaderSlots.style.display = 'none';
-        suraSlots.style.display = 'none';
-        patientDetails.style.display = 'none';
-        allTimeSlots.forEach(slot => slot.classList.remove('selected'));
-        hiddenAppointmentInput.value = '';
+        const appointments = {
+            'dr-abdulqader': [
+                'السبت - 3:00 مساءً',
+                'الأحد - 3:00 مساءً',
+                'الاثنين - 3:00 مساءً',
+                'الأربعاء - 3:00 مساءً',
+                'الخميس - 3:00 مساءً',
+                'الجمعة - 3:00 مساءً'
+            ],
+            'dr-sura': [
+                'السبت - 9:00 صباحاً',
+                'الأحد - 9:00 صباحاً',
+                'الاثنين - 9:00 صباحاً',
+                'الأربعاء - 9:00 صباحاً',
+                'الخميس - 9:00 صباحاً'
+            ]
+        };
 
-        if (this.value === 'dr-abdulqader') {
-            abdulqaderSlots.style.display = 'block';
-        } else if (this.value === 'dr-sura') {
-            suraSlots.style.display = 'block';
-        }
-    });
+        doctorSelect.addEventListener('change', function() {
+            // Clear previous options and hide subsequent steps
+            appointmentSelect.innerHTML = '';
+            appointmentGroup.style.display = 'none';
+            patientDetails.style.display = 'none';
+            
+            const selectedDoctor = this.value;
 
-    allTimeSlots.forEach(slot => {
-        slot.addEventListener('click', function() {
-            allTimeSlots.forEach(s => s.classList.remove('selected'));
-            this.classList.add('selected');
-            hiddenAppointmentInput.value = this.getAttribute('data-value');
-            patientDetails.style.display = 'block';
-            errorMessage.style.display = 'none';
+            if (selectedDoctor) {
+                // Add a default, disabled option
+                const defaultOption = document.createElement('option');
+                defaultOption.textContent = '-- اختر اليوم والموعد --';
+                defaultOption.value = '';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                appointmentSelect.appendChild(defaultOption);
+
+                // Populate with new appointments
+                const availableSlots = appointments[selectedDoctor];
+                availableSlots.forEach(slotText => {
+                    const option = document.createElement('option');
+                    option.textContent = slotText;
+                    option.value = slotText;
+                    appointmentSelect.appendChild(option);
+                });
+
+                // Show the appointment dropdown
+                appointmentGroup.style.display = 'block';
+            }
         });
-    });
 
-    form.addEventListener('submit', function(event) {
-        if (!hiddenAppointmentInput.value) {
-            event.preventDefault();
-            errorMessage.style.display = 'block';
-            patientDetails.style.display = 'block';
-        } else {
-            errorMessage.style.display = 'none';
-        }
+        appointmentSelect.addEventListener('change', function() {
+            if (this.value) {
+                // If a valid appointment is selected, show patient details
+                patientDetails.style.display = 'block';
+            } else {
+                patientDetails.style.display = 'none';
+            }
+        });
     });
 </script>
 
