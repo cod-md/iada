@@ -302,6 +302,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         // --- Elements ---
         const form = document.getElementById('booking-form');
+        const header = document.querySelector('.header');
         const doctorSelect = document.getElementById('doctor-select');
         const dayGroup = document.getElementById('day-group');
         const daySelect = document.getElementById('day-select');
@@ -420,9 +421,8 @@
             })
             .then(response => {
                 // Simulate a successful API call for demonstration
-                // In a real scenario, you would check response.ok
-                if (true) { // Replace 'true' with 'response.ok'
-                    return { result: 'success' }; // Mock success response
+                if (true) { // In a real app, you'd use response.ok
+                    return { result: 'success' };
                 } else {
                      return response.json().then(err => {
                        throw new Error(err.details || `Server error: ${response.status}`);
@@ -431,18 +431,15 @@
             })
             .then(responseData => {
                 if (responseData.result === 'success') {
-                    // --- MODIFICATION START ---
-                    // Create a more detailed success message with appointment details
                     const successHTML = `تم ارسال طلب الحجز بنجاح ✅<br>موعدك هو يوم <strong>${data.day}</strong> الساعة <strong>${data.time}</strong>`;
                     formMessage.innerHTML = successHTML;
-                    // --- MODIFICATION END ---
-
                     formMessage.className = 'message success';
-                    form.reset();
-                    dayGroup.style.display = 'none';
-                    timeGroup.style.display = 'none';
-                    patientDetails.style.display = 'none';
-                    doctorSelect.selectedIndex = 0;
+                    
+                    // --- MODIFICATION START ---
+                    // Hide the header and the form on success
+                    header.style.display = 'none';
+                    form.style.display = 'none';
+                    // --- MODIFICATION END ---
                 } else {
                     throw new Error(responseData.details || 'An unknown error occurred.');
                 }
@@ -453,15 +450,18 @@
                 formMessage.className = 'message error';
             })
             .finally(() => {
-                // --- Revert UI back to normal state ---
                 formMessage.style.display = 'block';
-                submitButton.disabled = false;
-                buttonText.textContent = 'تأكيد الحجز';
-                spinner.style.display = 'none';
+                // Only revert button if the form is still visible (i.e., on error)
+                if (form.style.display !== 'none') {
+                    submitButton.disabled = false;
+                    buttonText.textContent = 'تأكيد الحجز';
+                    spinner.style.display = 'none';
+                }
             });
         });
     });
 </script>
 </body>
 </html>
+
 
