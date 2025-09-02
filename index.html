@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
-        /* CSS Variables for easy theme management */
         :root {
             --primary-color: #007bff;
             --primary-hover: #0056b3;
@@ -31,7 +30,6 @@
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
 
-        /* General Body Styles */
         body {
             font-family: 'Tajawal', sans-serif;
             background-color: var(--bg-color);
@@ -44,7 +42,6 @@
             color: var(--text-color);
         }
 
-        /* Main Container Styling */
         .container {
             background-color: var(--container-bg);
             padding: 40px;
@@ -56,7 +53,6 @@
             border-top: 5px solid var(--primary-color);
         }
 
-        /* Header Section */
         .header {
             margin-bottom: 30px;
         }
@@ -72,7 +68,6 @@
             font-weight: 700;
         }
 
-        /* Form Group & Input Wrapper for Icons */
         .form-group {
             margin-bottom: 25px;
             text-align: right;
@@ -88,7 +83,7 @@
             transform: translateY(-50%);
             color: var(--light-text-color);
             font-size: 1.1em;
-            pointer-events: none; /* Allows clicking through the icon */
+            pointer-events: none;
         }
         
         label {
@@ -99,10 +94,9 @@
             font-size: 1.1em;
         }
 
-        /* Unified Styling for Inputs and Selects */
         select, input[type="text"] {
             width: 100%;
-            padding: 15px 50px 15px 20px; /* Right padding for icon */
+            padding: 15px 50px 15px 20px;
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             box-sizing: border-box;
@@ -112,7 +106,6 @@
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        /* Custom Select Arrow */
         select {
             appearance: none;
             -webkit-appearance: none;
@@ -121,7 +114,7 @@
             background-repeat: no-repeat;
             background-position: left 1rem center;
             background-size: 1em;
-            padding-left: 40px; /* Space for arrow */
+            padding-left: 40px;
         }
         
         select:focus, input:focus {
@@ -130,7 +123,6 @@
             box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
         }
 
-        /* Modern Button Style */
         button[type="submit"] {
             background-color: var(--success-color);
             color: white;
@@ -158,7 +150,6 @@
             opacity: 0.7;
         }
 
-        /* Spinner for Button */
         .spinner {
             width: 20px;
             height: 20px;
@@ -166,13 +157,12 @@
             border-top-color: #fff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            display: none; /* Hidden by default */
+            display: none;
         }
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Clinic Info Section */
         .clinic-info {
             margin-top: 35px;
             padding-top: 25px;
@@ -181,7 +171,7 @@
         .clinic-info .info-item {
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Right aligned text for RTL */
+            justify-content: flex-start;
             text-align: right;
             font-size: 1.1em;
             color: var(--light-text-color);
@@ -193,7 +183,7 @@
             color: var(--primary-color);
             font-size: 1.3em;
             margin-left: 15px;
-            width: 25px; /* Fixed width for alignment */
+            width: 25px;
         }
         .clinic-info .info-item i.fa-location-dot { color: var(--danger-color); }
         .clinic-info a {
@@ -206,7 +196,6 @@
             text-decoration: underline;
         }
 
-        /* Message Styling */
         .message {
             display: none;
             margin-top: 20px;
@@ -237,7 +226,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header with Icon -->
         <div class="header">
             <div class="icon"><i class="fa-solid fa-calendar-check"></i></div>
             <h1>حجز موعد في عيادة الدكتور عبد القادر رحيم</h1>
@@ -246,7 +234,6 @@
         <form id="booking-form" novalidate>
             <div class="form-group">
                 <label for="doctor-select">اختر الطبيب</label>
-                <!-- Wrapper for icon -->
                 <div class="input-wrapper">
                     <i class="fa-solid fa-user-doctor"></i>
                     <select id="doctor-select" name="doctor">
@@ -261,9 +248,7 @@
                 <label for="day-select">اختر اليوم</label>
                 <div class="input-wrapper">
                     <i class="fa-solid fa-calendar-day"></i>
-                    <select id="day-select" name="day">
-                        <!-- Options populated by JS -->
-                    </select>
+                    <select id="day-select" name="day"></select>
                 </div>
             </div>
             
@@ -271,9 +256,7 @@
                 <label for="time-select">اختر الموعد</label>
                 <div class="input-wrapper">
                     <i class="fa-solid fa-clock"></i>
-                    <select id="time-select" name="time">
-                        <!-- Options populated by JS -->
-                    </select>
+                    <select id="time-select" name="time"></select>
                 </div>
             </div>
 
@@ -293,7 +276,6 @@
                     </div>
                 </div>
                 <button type="submit" id="submit-button">
-                    <!-- Spinner and Text Span -->
                     <span class="button-text">تأكيد الحجز</span>
                     <div class="spinner"></div>
                 </button>
@@ -305,7 +287,6 @@
         <div class="clinic-info">
              <div class="info-item">
                 <i class="fa-solid fa-location-dot"></i>
-                <!-- Standard Google Maps link -->
                 <a href="https://www.google.com/maps/search/?api=1&query=Baqubah,+Diyala,+Iraq" target="_blank" rel="noopener noreferrer">
                     <span>بعقوبة - شارع الاطباء - مقابل صيدلية الوطن</span>
                 </a>
@@ -319,6 +300,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // --- !!! هام جداً: أدخل معلومات البوت هنا !!! ---
+        const BOT_TOKEN = 'ضع التوكن الخاص بالبوت هنا'; //  Example: '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'
+        const CHAT_ID = 'ضع معرّف المحادثة هنا';      //  Example: '123456789'
+        // ---------------------------------------------------
+
         const form = document.getElementById('booking-form');
         const doctorSelect = document.getElementById('doctor-select');
         const dayGroup = document.getElementById('day-group');
@@ -331,6 +317,7 @@
         const spinner = submitButton.querySelector('.spinner');
         const formMessage = document.getElementById('form-message');
         const phoneInput = document.getElementById('phone');
+        const nameInput = document.getElementById('name');
 
         const appointments = {
             'الدكتور عبدالقادر رحيم كريم': {
@@ -358,7 +345,6 @@
             const selectedDay = daySelect.value;
             const selectedTime = timeSelect.value;
 
-            // Reset and hide everything first if no doctor is selected
             if (!selectedDoctor) {
                 dayGroup.style.display = 'none';
                 timeGroup.style.display = 'none';
@@ -368,8 +354,8 @@
                 return;
             }
 
-            // Populate days if a doctor is selected
-            if (daySelect.options.length <= 1) {
+            if (daySelect.options.length <= 1 || daySelect.dataset.doctor !== selectedDoctor) {
+                resetSelect(daySelect, '-- اختر اليوم --');
                 const doctorData = appointments[selectedDoctor];
                 doctorData.days.forEach(day => {
                     const option = document.createElement('option');
@@ -377,10 +363,10 @@
                     option.value = day;
                     daySelect.appendChild(option);
                 });
+                daySelect.dataset.doctor = selectedDoctor;
             }
             dayGroup.style.display = 'block';
 
-            // Handle time select visibility based on day selection
             if (!selectedDay) {
                 timeGroup.style.display = 'none';
                 patientDetails.style.display = 'none';
@@ -388,8 +374,8 @@
                 return;
             }
             
-            // Populate times if a day is selected
-             if (timeSelect.options.length <= 1) {
+            if (timeSelect.options.length <= 1 || timeSelect.dataset.day !== selectedDay) {
+                resetSelect(timeSelect, '-- اختر الوقت --');
                 const doctorData = appointments[selectedDoctor];
                 doctorData.times.forEach(time => {
                     const option = document.createElement('option');
@@ -397,28 +383,28 @@
                     option.value = time;
                     timeSelect.appendChild(option);
                 });
+                timeSelect.dataset.day = selectedDay;
             }
             timeGroup.style.display = 'block';
 
-            // Handle patient details visibility based on time selection
             patientDetails.style.display = selectedTime ? 'block' : 'none';
         }
 
-        doctorSelect.addEventListener('change', function() {
-            resetSelect(daySelect, '-- اختر اليوم --');
-            updateFormVisibility();
-        });
-
-        daySelect.addEventListener('change', function() {
-            resetSelect(timeSelect, '-- اختر الوقت --');
-            updateFormVisibility();
-        });
-        
+        doctorSelect.addEventListener('change', updateFormVisibility);
+        daySelect.addEventListener('change', updateFormVisibility);
         timeSelect.addEventListener('change', updateFormVisibility);
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             formMessage.style.display = 'none';
+            
+            // Basic validation
+            if (!nameInput.value.trim() || !phoneInput.value.trim()) {
+                 formMessage.textContent = 'خطأ: يرجى إدخال الاسم ورقم الهاتف.';
+                formMessage.className = 'message error';
+                formMessage.style.display = 'block';
+                return;
+            }
 
             const phoneRegex = /^07\d{9}$/; 
             if (!phoneRegex.test(phoneInput.value)) {
@@ -429,37 +415,60 @@
                 return; 
             }
 
-            // Show spinner and disable button
             submitButton.disabled = true;
             buttonText.textContent = 'جاري الإرسال...';
             spinner.style.display = 'block';
             
+            // Prepare data for Telegram
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
+            
+            const message = `
+🎉 حجز موعد جديد! 🎉
+-----------------------------------
+👨‍⚕️ الطبيب: ${data.doctor}
+📅 اليوم: ${data.day}
+⏰ الوقت: ${data.time}
+👤 الاسم: ${data.name}
+📱 الهاتف: ${data.phone}
+-----------------------------------
+            `;
+            
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
-            // --- FAKE API CALL FOR DEMONSTRATION ---
-            // Replace this with your actual fetch call. This part is for testing the UI.
-            setTimeout(() => {
-                const isSuccess = Math.random() > 0.1; // Simulate a 90% success rate
-                if (isSuccess) {
-                    // Success case
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
                     formMessage.textContent = 'شكراً لك! تم إرسال طلب الحجز بنجاح. سنتواصل معك للتأكيد.';
                     formMessage.className = 'message success';
                     form.reset();
                     doctorSelect.selectedIndex = 0;
                     updateFormVisibility();
                 } else {
-                    // Error case
-                    formMessage.textContent = 'عذراً، حدث خطأ في الخادم. يرجى المحاولة مرة أخرى.';
-                    formMessage.className = 'message error';
+                    throw new Error(data.description || 'حدث خطأ أثناء الإرسال إلى تليجرام.');
                 }
-                
-                // Hide spinner and re-enable button
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                formMessage.textContent = `عذراً، حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى. (${error.message})`;
+                formMessage.className = 'message error';
+            })
+            .finally(() => {
                 formMessage.style.display = 'block';
                 submitButton.disabled = false;
                 buttonText.textContent = 'تأكيد الحجز';
                 spinner.style.display = 'none';
-            }, 2000); // Simulate 2-second network delay
+            });
         });
     });
 </script>
