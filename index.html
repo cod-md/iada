@@ -14,125 +14,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     
     <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #f4f7f9;
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
-        }
-        h1 {
-            color: #0056b3;
-            margin-bottom: 30px;
-            font-size: 2.1em;
-            line-height: 1.4;
-        }
-        .form-group {
-            margin-bottom: 25px;
-            text-align: right;
-            animation: fadeIn 0.5s;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-            color: #343a40;
-            font-weight: 700;
-            font-size: 1.1em;
-        }
-        select, input[type="text"], input[type="tel"] {
-            width: 100%;
-            padding: 14px 45px 14px 20px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 16px;
-            font-family: 'Tajawal', sans-serif;
-            background-color: #f8f9fa;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: left 1rem center;
-            background-size: 1em;
-        }
-        input[type="text"], input[type="tel"] {
-            padding: 14px 20px;
-        }
-        select:focus, input:focus {
-            outline: none;
-            border-color: #80bdff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        button[type="submit"] {
-            background: linear-gradient(90deg, #28a745, #218838);
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 700;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-        }
-        button[type="submit"]:disabled {
-            background: #aaa;
-            cursor: not-allowed;
-        }
-        .clinic-info {
-            margin-top: 35px;
-            padding-top: 25px;
-            border-top: 1px solid #e9ecef;
-        }
-        .clinic-info .info-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1em;
-            color: #495057;
-        }
-        .clinic-info .info-item i {
-            color: #dc3545;
-            font-size: 1.2em;
-            margin-left: 10px;
-        }
-        .message {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 500;
-        }
-        .message.success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        body { font-family: 'Tajawal', sans-serif; background-color: #f4f7f9; margin: 0; padding: 40px 20px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
+        .container { background-color: #ffffff; padding: 30px 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); text-align: center; max-width: 600px; width: 100%; }
+        h1 { color: #0056b3; margin-bottom: 30px; font-size: 2.1em; line-height: 1.4; }
+        .form-group { margin-bottom: 25px; text-align: right; animation: fadeIn 0.5s; }
+        label { display: block; margin-bottom: 10px; color: #343a40; font-weight: 700; font-size: 1.1em; }
+        select, input[type="text"], input[type="tel"] { width: 100%; padding: 14px 45px 14px 20px; border: 1px solid #ced4da; border-radius: 8px; box-sizing: border-box; font-size: 16px; font-family: 'Tajawal', sans-serif; background-color: #f8f9fa; appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: left 1rem center; background-size: 1em; }
+        input[type="text"], input[type="tel"] { padding: 14px 20px; }
+        select:focus, input:focus { outline: none; border-color: #80bdff; box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); }
+        button[type="submit"] { background: linear-gradient(90deg, #28a745, #218838); color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: 700; width: 100%; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); }
+        button[type="submit"]:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4); }
+        button[type="submit"]:disabled { background: #aaa; cursor: not-allowed; }
+        .clinic-info { margin-top: 35px; padding-top: 25px; border-top: 1px solid #e9ecef; }
+        .clinic-info .info-item { display: flex; align-items: center; justify-content: center; font-size: 1.1em; color: #495057; }
+        .clinic-info .info-item i { color: #dc3545; font-size: 1.2em; margin-left: 10px; }
+        .message { display: none; margin-top: 20px; padding: 15px; border-radius: 8px; font-weight: 700; font-size: 1.1em; line-height: 1.6; }
+        .message.success { background-color: #d4edda; color: #155724; }
+        .message.error { background-color: #f8d7da; color: #721c24; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -226,11 +125,23 @@
             submitButton.textContent = 'جاري الإرسال...';
             formMessage.style.display = 'none';
 
-            // The URL for our Cloudflare Function is simply '/submit'
-            fetch('/api/submit', { method: 'POST', body: new FormData(form) })
+            // Create a plain JavaScript object from the form data.
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Send the data as a JSON string.
+            fetch('/api/submit', { // URL is now /api/submit
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`خطأ من الخادم: ${response.statusText}`);
+                        return response.json().then(err => {
+                           throw new Error(err.details || `Server error: ${response.status}`);
+                        });
                     }
                     return response.json();
                 })
@@ -242,13 +153,13 @@
                         appointmentGroup.style.display = 'none';
                         patientDetails.style.display = 'none';
                     } else {
-                        throw new Error(data.details || 'حدث خطأ غير معروف');
+                        throw new Error(data.details || 'An unknown error occurred.');
                     }
                 })
                 .catch(error => {
-                    formMessage.textContent = 'عذراً، حدث خطأ أثناء إرسال الحجز. يرجى المحاولة مرة أخرى.';
+                    console.error('Full Error:', error.message);
+                    formMessage.textContent = 'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى. (' + error.message + ')';
                     formMessage.className = 'message error';
-                    console.error('Error!', error.message);
                 })
                 .finally(() => {
                     formMessage.style.display = 'block';
