@@ -20,6 +20,7 @@
             --success-color: #28a745;
             --success-hover: #218838;
             --danger-color: #dc3545;
+            --whatsapp-color: #25D366;
             --bg-color: #f8f9fa;
             --container-bg: #ffffff;
             --text-color: #343a40;
@@ -186,6 +187,7 @@
             width: 25px;
         }
         .clinic-info .info-item i.fa-location-dot { color: var(--danger-color); }
+        .clinic-info .info-item i.fa-whatsapp { color: var(--whatsapp-color); } /* WhatsApp icon color */
         .clinic-info a {
             color: var(--light-text-color);
             text-decoration: none;
@@ -228,7 +230,7 @@
     <div class="container">
         <div class="header">
             <div class="icon"><i class="fa-solid fa-calendar-check"></i></div>
-            <h1>حجز موعد في عيادة الدكتور عبد القادر رحيم</h1>
+            <h1>حجز موعد – عيادة د.عبد القادر رحيم</h1>
         </div>
         
         <form id="booking-form" novalidate>
@@ -295,6 +297,14 @@
                 <i class="fa-solid fa-phone"></i>
                 <span><a href="tel:07733338434">07733338434</a></span>
             </div>
+            <!-- WhatsApp Link Start -->
+            <div class="info-item">
+                <i class="fa-brands fa-whatsapp"></i>
+                <a href="https://wa.me/9647733338434" target="_blank" rel="noopener noreferrer">
+                    <span>واتساب</span>
+                </a>
+            </div>
+            <!-- WhatsApp Link End -->
         </div>
     </div>
 
@@ -434,10 +444,8 @@
                     formMessage.innerHTML = successHTML;
                     formMessage.className = 'message success';
                     
-                    // --- MODIFICATION START ---
                     // Hide the form on success, but keep the header
                     form.style.display = 'none';
-                    // --- MODIFICATION END ---
                 } else {
                     throw new Error(responseData.details || 'An unknown error occurred.');
                 }
