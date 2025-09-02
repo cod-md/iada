@@ -227,7 +227,7 @@
             formMessage.style.display = 'none';
 
             // The URL for our Cloudflare Function is simply '/submit'
-            fetch('/submit', { method: 'POST', body: new FormData(form) })
+            fetch('/api/submit', { method: 'POST', body: new FormData(form) })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`خطأ من الخادم: ${response.statusText}`);
