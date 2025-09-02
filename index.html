@@ -27,10 +27,8 @@
         button[type="submit"]:disabled { background: #aaa; cursor: not-allowed; }
         .clinic-info { margin-top: 35px; padding-top: 25px; border-top: 1px solid #e9ecef; }
         .clinic-info .info-item { display: flex; align-items: center; justify-content: center; font-size: 1.1em; color: #495057; }
-        /* MODIFIED: Added margin for spacing between info items */
         .clinic-info .info-item:not(:first-child) { margin-top: 10px; }
         .clinic-info .info-item i { color: #0056b3; font-size: 1.2em; margin-left: 10px; }
-        /* MODIFIED: Styling for the phone number link */
         .clinic-info a { color: inherit; text-decoration: none; transition: color 0.2s ease-in-out; }
         .clinic-info a:hover { color: #007bff; }
         .message { display: none; margin-top: 20px; padding: 15px; border-radius: 8px; font-weight: 700; font-size: 1.1em; line-height: 1.6; }
@@ -49,7 +47,8 @@
                 <select id="doctor-select" name="doctor">
                     <option value="" disabled selected>-- يرجى اختيار الطبيب --</option>
                     <option value="الدكتور عبدالقادر رحيم كريم">الدكتور عبدالقادر رحيم كريم</option>
-                    <option value="الدكتورة سرى سعدون خزعل">الدكتورة سرى سعدون خزعل</option>
+                    <!-- MODIFIED: Added 'disabled' attribute to make the option unselectable -->
+                    <option value="الدكتورة سرى سعدون خزعل" disabled>الدكتورة سرى سعدون خزعل (غير متاحة حالياً)</option>
                 </select>
             </div>
 
@@ -86,7 +85,6 @@
                 <i class="fa-solid fa-location-dot" style="color: #dc3545;"></i>
                 <span> بعقوبة - شارع الاطباء - مقابل صيدلية الوطن</span>
             </div>
-            <!-- NEW: Added phone number information -->
             <div class="info-item">
                 <i class="fa-solid fa-phone"></i>
                 <span><a href="tel:07733338434">07733338434</a></span>
