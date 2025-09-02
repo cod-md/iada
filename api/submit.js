@@ -7,14 +7,16 @@ export default async function handler(req, res) {
 
   try {
     // 1. Get data from the request. Vercel automatically parses JSON.
-    const { doctor, appointment, name, phone } = req.body;
+    // MODIFIED: Changed 'appointment' to 'day' and 'time'
+    const { doctor, day, time, name, phone } = req.body;
 
     // 2. Get secrets from Vercel's Environment Variables.
     const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const CHAT_ID = process.env.CHAT_ID;
 
     // 3. Basic validation
-    if (!name || !phone || !doctor || !appointment) {
+    // MODIFIED: Check for 'day' and 'time' instead of 'appointment'
+    if (!name || !phone || !doctor || !day || !time) {
       return res.status(400).json({ result: 'error', details: 'Missing required form fields.' });
     }
     if (!BOT_TOKEN || !CHAT_ID) {
@@ -27,7 +29,8 @@ export default async function handler(req, res) {
     message += `<b>👤 اسم المريض:</b> ${name}\n`;
     message += `<b>📞 رقم الهاتف:</b> ${phone}\n`;
     message += `<b>👨‍⚕️ الطبيب:</b> ${doctor}\n`;
-    message += `<b>🗓️ الموعد:</b> ${appointment}`;
+    // MODIFIED: Combine 'day' and 'time' for the appointment details
+    message += `<b>🗓️ الموعد:</b> ${day} - ${time}`;
 
     // 5. Send the message using the Telegram Bot API.
     const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
@@ -56,3 +59,4 @@ export default async function handler(req, res) {
     return res.status(500).json({ result: 'error', details: error.message });
   }
 }
+
