@@ -287,7 +287,7 @@
         <div class="clinic-info">
              <div class="info-item">
                 <i class="fa-solid fa-location-dot"></i>
-                <a href="https://www.google.com/maps/search/?api=1&query=Baqubah,+Diyala,+Iraq" target="_blank" rel="noopener noreferrer">
+                <a href="https://maps.app.goo.gl/GzdapVn2gLB1hPj48?g_st=afm" target="_blank" rel="noopener noreferrer">
                     <span>بعقوبة - شارع الاطباء - مقابل صيدلية الوطن</span>
                 </a>
             </div>
@@ -300,11 +300,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // --- !!! هام جداً: أدخل معلومات البوت هنا !!! ---
-        const BOT_TOKEN = 'ضع التوكن الخاص بالبوت هنا'; //  Example: '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'
-        const CHAT_ID = 'ضع معرّف المحادثة هنا';      //  Example: '123456789'
-        // ---------------------------------------------------
-
+        // --- Elements ---
         const form = document.getElementById('booking-form');
         const doctorSelect = document.getElementById('doctor-select');
         const dayGroup = document.getElementById('day-group');
@@ -340,22 +336,16 @@
             selectElement.appendChild(defaultOption);
         }
 
-        function updateFormVisibility() {
-            const selectedDoctor = doctorSelect.value;
-            const selectedDay = daySelect.value;
-            const selectedTime = timeSelect.value;
-
-            if (!selectedDoctor) {
-                dayGroup.style.display = 'none';
-                timeGroup.style.display = 'none';
-                patientDetails.style.display = 'none';
-                resetSelect(daySelect, '-- اختر اليوم --');
-                resetSelect(timeSelect, '-- اختر الوقت --');
-                return;
-            }
-
-            if (daySelect.options.length <= 1 || daySelect.dataset.doctor !== selectedDoctor) {
-                resetSelect(daySelect, '-- اختر اليوم --');
+        // --- Logic for showing/hiding form fields ---
+        doctorSelect.addEventListener('change', function() {
+            resetSelect(daySelect, '-- اختر اليوم --');
+            resetSelect(timeSelect, '-- اختر الوقت --');
+            dayGroup.style.display = 'none';
+            timeGroup.style.display = 'none';
+            patientDetails.style.display = 'none';
+            
+            const selectedDoctor = this.value;
+            if (selectedDoctor) {
                 const doctorData = appointments[selectedDoctor];
                 doctorData.days.forEach(day => {
                     const option = document.createElement('option');
@@ -363,19 +353,17 @@
                     option.value = day;
                     daySelect.appendChild(option);
                 });
-                daySelect.dataset.doctor = selectedDoctor;
+                dayGroup.style.display = 'block';
             }
-            dayGroup.style.display = 'block';
+        });
 
-            if (!selectedDay) {
-                timeGroup.style.display = 'none';
-                patientDetails.style.display = 'none';
-                resetSelect(timeSelect, '-- اختر الوقت --');
-                return;
-            }
-            
-            if (timeSelect.options.length <= 1 || timeSelect.dataset.day !== selectedDay) {
-                resetSelect(timeSelect, '-- اختر الوقت --');
+        daySelect.addEventListener('change', function() {
+            resetSelect(timeSelect, '-- اختر الوقت --');
+            timeGroup.style.display = 'none';
+            patientDetails.style.display = 'none';
+
+            const selectedDoctor = doctorSelect.value;
+            if (this.value && selectedDoctor) {
                 const doctorData = appointments[selectedDoctor];
                 doctorData.times.forEach(time => {
                     const option = document.createElement('option');
@@ -383,27 +371,25 @@
                     option.value = time;
                     timeSelect.appendChild(option);
                 });
-                timeSelect.dataset.day = selectedDay;
+                timeGroup.style.display = 'block';
             }
-            timeGroup.style.display = 'block';
+        });
+        
+        timeSelect.addEventListener('change', function() {
+            patientDetails.style.display = this.value ? 'block' : 'none';
+        });
 
-            patientDetails.style.display = selectedTime ? 'block' : 'none';
-        }
-
-        doctorSelect.addEventListener('change', updateFormVisibility);
-        daySelect.addEventListener('change', updateFormVisibility);
-        timeSelect.addEventListener('change', updateFormVisibility);
-
+        // --- Form Submission Logic (from old working code) ---
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             formMessage.style.display = 'none';
-            
-            // Basic validation
+
+            // Validation
             if (!nameInput.value.trim() || !phoneInput.value.trim()) {
                  formMessage.textContent = 'خطأ: يرجى إدخال الاسم ورقم الهاتف.';
-                formMessage.className = 'message error';
-                formMessage.style.display = 'block';
-                return;
+                 formMessage.className = 'message error';
+                 formMessage.style.display = 'block';
+                 return;
             }
 
             const phoneRegex = /^07\d{9}$/; 
@@ -415,55 +401,48 @@
                 return; 
             }
 
+            // --- Update UI to show loading state ---
             submitButton.disabled = true;
             buttonText.textContent = 'جاري الإرسال...';
             spinner.style.display = 'block';
             
-            // Prepare data for Telegram
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-            
-            const message = `
-🎉 حجز موعد جديد! 🎉
------------------------------------
-👨‍⚕️ الطبيب: ${data.doctor}
-📅 اليوم: ${data.day}
-⏰ الوقت: ${data.time}
-👤 الاسم: ${data.name}
-📱 الهاتف: ${data.phone}
------------------------------------
-            `;
-            
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
-            fetch(url, {
+            // --- This fetch call sends data to your backend, just like the old code ---
+            fetch('/api/submit', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                       throw new Error(err.details || `Server error: ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
-                if (data.ok) {
-                    formMessage.textContent = 'شكراً لك! تم إرسال طلب الحجز بنجاح. سنتواصل معك للتأكيد.';
+                if (data.result === 'success') {
+                    formMessage.textContent = 'شكراً لك! تم إرسال طلب الحجز بنجاح.';
                     formMessage.className = 'message success';
                     form.reset();
+                    dayGroup.style.display = 'none';
+                    timeGroup.style.display = 'none';
+                    patientDetails.style.display = 'none';
                     doctorSelect.selectedIndex = 0;
-                    updateFormVisibility();
                 } else {
-                    throw new Error(data.description || 'حدث خطأ أثناء الإرسال إلى تليجرام.');
+                    throw new Error(data.details || 'An unknown error occurred.');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                formMessage.textContent = `عذراً، حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى. (${error.message})`;
+                console.error('Full Error:', error.message);
+                formMessage.textContent = 'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى. (' + error.message + ')';
                 formMessage.className = 'message error';
             })
             .finally(() => {
+                // --- Revert UI back to normal state ---
                 formMessage.style.display = 'block';
                 submitButton.disabled = false;
                 buttonText.textContent = 'تأكيد الحجز';
