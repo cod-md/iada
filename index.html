@@ -27,7 +27,12 @@
         button[type="submit"]:disabled { background: #aaa; cursor: not-allowed; }
         .clinic-info { margin-top: 35px; padding-top: 25px; border-top: 1px solid #e9ecef; }
         .clinic-info .info-item { display: flex; align-items: center; justify-content: center; font-size: 1.1em; color: #495057; }
-        .clinic-info .info-item i { color: #dc3545; font-size: 1.2em; margin-left: 10px; }
+        /* MODIFIED: Added margin for spacing between info items */
+        .clinic-info .info-item:not(:first-child) { margin-top: 10px; }
+        .clinic-info .info-item i { color: #0056b3; font-size: 1.2em; margin-left: 10px; }
+        /* MODIFIED: Styling for the phone number link */
+        .clinic-info a { color: inherit; text-decoration: none; transition: color 0.2s ease-in-out; }
+        .clinic-info a:hover { color: #007bff; }
         .message { display: none; margin-top: 20px; padding: 15px; border-radius: 8px; font-weight: 700; font-size: 1.1em; line-height: 1.6; }
         .message.success { background-color: #d4edda; color: #155724; }
         .message.error { background-color: #f8d7da; color: #721c24; }
@@ -68,7 +73,6 @@
                     <input type="text" id="name" name="name" placeholder="الاسم الثلاثي" required>
                 </div>
                 <div class="form-group">
-                    <!-- The 'pattern' and 'maxlength' attributes provide browser-level validation -->
                     <input type="text" id="phone" name="phone" placeholder="مثال: 077xxxxxxxx" required pattern="07[0-9]{9}" title="يجب أن يتكون الرقم من 11 خانة ويبدأ بـ 07" maxlength="11" inputmode="numeric">
                 </div>
                 <button type="submit" id="submit-button">تأكيد الحجز</button>
@@ -79,8 +83,13 @@
 
         <div class="clinic-info">
              <div class="info-item">
-                <i class="fa-solid fa-location-dot"></i>
+                <i class="fa-solid fa-location-dot" style="color: #dc3545;"></i>
                 <span> بعقوبة - شارع الاطباء - مقابل صيدلية الوطن</span>
+            </div>
+            <!-- NEW: Added phone number information -->
+            <div class="info-item">
+                <i class="fa-solid fa-phone"></i>
+                <span><a href="tel:07733338434">07733338434</a></span>
             </div>
         </div>
     </div>
@@ -165,20 +174,15 @@
             e.preventDefault();
             formMessage.style.display = 'none';
 
-            // --- Strict Phone Number Validation ---
-            // This regex checks for a string that starts (^) and ends ($) with
-            // '07' followed by exactly 9 digits. This enforces a total length of 11.
             const phoneRegex = /^07\d{9}$/; 
 
             if (!phoneRegex.test(phoneInput.value)) {
-                // MODIFIED: More direct and strict error message
                 formMessage.textContent = 'خطأ: الرقم غير صحيح. يجب أن يتكون من 11 خانة بالضبط ويبدأ بالرقم 07.';
                 formMessage.className = 'message error';
                 formMessage.style.display = 'block';
                 phoneInput.focus();
-                return; // Stop the form submission
+                return; 
             }
-            // --- End of Validation ---
 
             submitButton.disabled = true;
             submitButton.textContent = 'جاري الإرسال...';
