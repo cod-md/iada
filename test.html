@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجز موعد | عيادة الدكتور عبدالقادر رحيم</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2c5282;
+            --primary-dark: #1a365d;
+            --primary-light: #3182ce;
+            --success-color: #38a169;
+            --success-dark: #2f855a;
+            --error-color: #e53e3e;
+            --warning-color: #d69e2e;
+            --text-dark: #2d3748;
+            --text-light: #4a5568;
+            --bg-light: #f7fafc;
+            --bg-white: #ffffff;
+            --border-light: #e2e8f0;
+            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-large: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--bg-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-large);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .clinic-logo {
+            background: rgba(255, 255, 255, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .clinic-logo i {
+            font-size: 32px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--border-light);
+            color: var(--text-light);
+            font-weight: 600;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step.active {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .step.completed {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .step::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -30px;
+            width: 30px;
+            height: 2px;
+            background: var(--border-light);
+            transform: translateY(-50%);
+        }
+
+        .step:last-child::after {
+            display: none;
+        }
+
+        .step.completed::after {
+            background: var(--success-color);
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .form-group.hidden {
+            display: none;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: right;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-white);
+            transition: all 0.3s ease;
+            appearance: none;
+        }
+
+        select {
+            padding-right: 50px;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%234a5568' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 1rem center;
+            background-size: 1em;
+            cursor: pointer;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            pointer-events: none;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, var(--success-color) 0%, var(--success-dark) 100%);
+            color: white;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-button:hover::before {
+            left: 100%;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .submit-button:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .submit-button:disabled::before {
+            display: none;
+        }
+
+        .message {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 1rem;
+            line-height: 1.6;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .message.success {
+            background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+            color: #1a202c;
+            border: 1px solid #9ae6b4;
+        }
+
+        .message.error {
+            background: linear-gradient(135deg, #fed7d7, #feb2b2);
+            color: #1a202c;
+            border: 1px solid #feb2b2;
+        }
+
+        .clinic-info {
+            background: var(--bg-light);
+            padding: 30px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .clinic-info h3 {
+            color: var(--text-dark);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .info-item i {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .info-item a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .info-item a:hover {
+            color: var(--primary-color);
+        }
+
+        .doctor-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        .status-available {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-unavailable {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-indicator {
+                margin-bottom: 30px;
+            }
+
+            .step {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <div class="header-content">
+                <div class="clinic-logo">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h1>عيادة الدكتور عبدالقادر رحيم</h1>
+                <p>حجز المواعيد الطبية بسهولة وأمان</p>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <div class="step-indicator">
+                <div class="step active" id="step-1">1</div>
+                <div class="step" id="step-2">2</div>
+                <div class="step" id="step-3">3</div>
+                <div class="step" id="step-4">4</div>
+            </div>
+
+            <form id="booking-form" novalidate>
+                <div class="form-group">
+                    <label for="doctor-select">
+                        <i class="fas fa-user-md" style="margin-left: 8px; color: var(--primary-color);"></i>
+                        اختر الطبيب
+                    </label>
+                    <div class="input-wrapper">
+                        <select id="doctor-select" name="doctor">
+                            <option value="" disabled selected>-- يرجى اختيار الطبيب --</option>
+                            <option value="الدكتور عبدالقادر رحيم كريم">
+                                الدكتور عبدالقادر رحيم كريم
+                                <span class="doctor-status status-available">متاح</span>
+                            </option>
+                            <option value="الدكتورة سرى سعدون خزعل" disabled>
+                                الدكتورة سرى سعدون خزعل (مجازة حاليا)
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group hidden" id="day-group">
+                    <label for="day-select">
+                        <i class="fas fa-calendar" style="margin-left: 8px; color: var(--primary-color);"></i>
+                        اختر اليوم
+                    </label>
+                    <div class="input-wrapper">
+                        <select id="day-select" name="day">
+                            <!-- Options populated by JS -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group hidden" id="time-group">
+                    <label for="time-select">
+                        <i class="fas fa-clock" style="margin-left: 8px; color: var(--primary-color);"></i>
+                        اختر الموعد
+                    </label>
+                    <div class="input-wrapper">
+                        <select id="time-select" name="time">
+                            <!-- Options populated by JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <div id="patient-details" class="hidden">
+                    <div class="form-group">
+                        <label for="name">
+                            <i class="fas fa-user" style="margin-left: 8px; color: var(--primary-color);"></i>
+                            الاسم الثلاثي
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="name" name="name" placeholder="أدخل اسمك الثلاثي" required>
+                            <i class="input-icon fas fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">
+                            <i class="fas fa-phone" style="margin-left: 8px; color: var(--primary-color);"></i>
+                            رقم الهاتف
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="phone" name="phone" placeholder="مثال: 07712345678" required pattern="07[0-9]{9}" title="يجب أن يتكون الرقم من 11 خانة ويبدأ بـ 07" maxlength="11" inputmode="numeric">
+                            <i class="input-icon fas fa-phone"></i>
+                        </div>
+                    </div>
+                    <button type="submit" id="submit-button" class="submit-button">
+                        <i class="fas fa-check-circle" style="margin-left: 8px;"></i>
+                        تأكيد الحجز
+                    </button>
+                </div>
+            </form>
+
+            <div id="form-message" class="message"></div>
+
+            <div class="clinic-info">
+                <h3>معلومات العيادة</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <a href="https://maps.app.goo.gl/GzdapVn2gLB1hPj48?g_st=afm" target="_blank" rel="noopener noreferrer">
+                            بعقوبة - شارع الاطباء<br>مقابل صيدلية الوطن
+                        </a>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <a href="tel:07733338434">07733338434</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('booking-form');
+        const doctorSelect = document.getElementById('doctor-select');
+        const dayGroup = document.getElementById('day-group');
+        const daySelect = document.getElementById('day-select');
+        const timeGroup = document.getElementById('time-group');
+        const timeSelect = document.getElementById('time-select');
+        const patientDetails = document.getElementById('patient-details');
+        const submitButton = document.getElementById('submit-button');
+        const formMessage = document.getElementById('form-message');
+        const phoneInput = document.getElementById('phone');
+
+        // Step indicators
+        const steps = document.querySelectorAll('.step');
+
+        function updateStepIndicator(currentStep) {
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < currentStep - 1) {
+                    step.classList.add('completed');
+                } else if (index === currentStep - 1) {
+                    step.classList.add('active');
+                }
+            });
+        }
+
+        function showGroup(group) {
+            group.classList.remove('hidden');
+            group.style.animation = 'slideInUp 0.5s ease-out';
+        }
+
+        function hideGroup(group) {
+            group.classList.add('hidden');
+        }
+
+        const appointments = {
+            'الدكتور عبدالقادر رحيم كريم': {
+                days: ['السبت', 'الأحد', 'الاثنين', 'الأربعاء', 'الخميس', 'الجمعة'],
+                times: ['4:00 مساءً', '4:30 مساءً', '5:00 مساءً', '5:30 مساءً', '6:00 مساءً', '6:30 مساءً', '7:00 مساءً', '7:30 مساءً']
+            },
+            'الدكتورة سرى سعدون خزعل': {
+                days: ['السبت', 'الأحد', 'الاثنين', 'الأربعاء', 'الخميس'],
+                times: ['10:00 صباحاً', '10:30 صباحاً', '11:00 صباحاً', '11:30 صباحاً']
+            }
+        };
+
+        function resetSelect(selectElement, defaultText) {
+            selectElement.innerHTML = '';
+            const defaultOption = document.createElement('option');
+            defaultOption.textContent = defaultText;
+            defaultOption.value = '';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            selectElement.appendChild(defaultOption);
+        }
+
+        doctorSelect.addEventListener('change', function() {
+            resetSelect(daySelect, '-- اختر اليوم --');
+            resetSelect(timeSelect, '-- اختر الوقت --');
+            hideGroup(dayGroup);
+            hideGroup(timeGroup);
+            hideGroup(patientDetails);
+            updateStepIndicator(1);
+            
+            const selectedDoctor = this.value;
+            if (selectedDoctor) {
+                const doctorData = appointments[selectedDoctor];
+                doctorData.days.forEach(day => {
+                    const option = document.createElement('option');
+                    option.textContent = day; 
+                    option.value = day;
+                    daySelect.appendChild(option);
+                });
+                showGroup(dayGroup);
+                updateStepIndicator(2);
+            }
+        });
+
+        daySelect.addEventListener('change', function() {
+            resetSelect(timeSelect, '-- اختر الوقت --');
+            hideGroup(timeGroup);
+            hideGroup(patientDetails);
+
+            const selectedDoctor = doctorSelect.value;
+            if (this.value && selectedDoctor) {
+                const doctorData = appointments[selectedDoctor];
+                doctorData.times.forEach(time => {
+                    const option = document.createElement('option');
+                    option.textContent = time; 
+                    option.value = time;
+                    timeSelect.appendChild(option);
+                });
+                showGroup(timeGroup);
+                updateStepIndicator(3);
+            }
+        });
+        
+        timeSelect.addEventListener('change', function() {
+            if (this.value) {
+                showGroup(patientDetails);
+                updateStepIndicator(4);
+            } else {
+                hideGroup(patientDetails);
+                updateStepIndicator(3);
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            formMessage.style.display = 'none';
+
+            const phoneRegex = /^07\d{9}$/; 
+
+            if (!phoneRegex.test(phoneInput.value)) {
+                formMessage.innerHTML = '<i class="fas fa-exclamation-triangle" style="margin-left: 8px;"></i>خطأ: الرقم غير صحيح. يجب أن يتكون من 11 خانة بالضبط ويبدأ بالرقم 07.';
+                formMessage.className = 'message error';
+                formMessage.style.display = 'block';
+                phoneInput.focus();
+                return; 
+            }
+
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-left: 8px;"></i>جاري الإرسال...';
+            
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('/api/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                       throw new Error(err.details || `Server error: ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.result === 'success') {
+                    formMessage.innerHTML = '<i class="fas fa-check-circle" style="margin-left: 8px;"></i>شكراً لك! تم إرسال طلب الحجز بنجاح. سيتم التواصل معك قريباً لتأكيد الموعد.';
+                    formMessage.className = 'message success';
+                    form.reset();
+                    hideGroup(dayGroup);
+                    hideGroup(timeGroup);
+                    hideGroup(patientDetails);
+                    doctorSelect.selectedIndex = 0;
+                    updateStepIndicator(1);
+                } else {
+                    throw new Error(data.details || 'An unknown error occurred.');
+                }
+            })
+            .catch(error => {
+                console.error('Full Error:', error.message);
+                formMessage.innerHTML = '<i class="fas fa-exclamation-triangle" style="margin-left: 8px;"></i>عذراً، حدث خطأ. يرجى المحاولة مرة أخرى. (' + error.message + ')';
+                formMessage.className = 'message error';
+            })
+            .finally(() => {
+                formMessage.style.display = 'block';
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-check-circle" style="margin-left: 8px;"></i>تأكيد الحجز';
+            });
+        });
+
+        // Initialize step indicator
+        updateStepIndicator(1);
+    });
+</script>
+</body>
+</html>
