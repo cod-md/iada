@@ -48,7 +48,7 @@
                     <option value="" disabled selected>-- يرجى اختيار الطبيب --</option>
                     <option value="الدكتور عبدالقادر رحيم كريم">الدكتور عبدالقادر رحيم كريم</option>
                     <!-- MODIFIED: Added 'disabled' attribute to make the option unselectable -->
-                    <option value="الدكتورة سرى سعدون خزعل" disabled>الدكتورة سرى سعدون خزعل (مجازة حاليا)</option>
+                    <option value="الدكتورة سرى سعدون خزعل" disabled>الدكتورة سرى سعدون خزعل (غير متاحة حالياً)</option>
                 </select>
             </div>
 
@@ -83,7 +83,10 @@
         <div class="clinic-info">
              <div class="info-item">
                 <i class="fa-solid fa-location-dot" style="color: #dc3545;"></i>
-                <span> بعقوبة - شارع الاطباء - مقابل صيدلية الوطن</span>
+                <!-- MODIFIED: Wrapped the address in an anchor tag -->
+                <a href="https://maps.app.goo.gl/GzdapVn2gLB1hPj48?g_st=afm" target="_blank" rel="noopener noreferrer">
+                    <span> بعقوبة - شارع الاطباء - مقابل صيدلية الوطن</span>
+                </a>
             </div>
             <div class="info-item">
                 <i class="fa-solid fa-phone"></i>
