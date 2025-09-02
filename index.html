@@ -302,7 +302,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         // --- Elements ---
         const form = document.getElementById('booking-form');
-        const header = document.querySelector('.header');
         const doctorSelect = document.getElementById('doctor-select');
         const dayGroup = document.getElementById('day-group');
         const daySelect = document.getElementById('day-select');
@@ -436,8 +435,7 @@
                     formMessage.className = 'message success';
                     
                     // --- MODIFICATION START ---
-                    // Hide the header and the form on success
-                    header.style.display = 'none';
+                    // Hide the form on success, but keep the header
                     form.style.display = 'none';
                     // --- MODIFICATION END ---
                 } else {
